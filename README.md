@@ -1,27 +1,22 @@
-# veritas-engine
-# Veritas: AI for the "Last Mile" 🌍🏛️
+# Veritas Engine: Hardware-Aware Transformer Optimization 🚀
 
-[![Status](https://img.shields.io/badge/JOSS-Under%20Review-blue)](https://joss.theoj.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Optimization: ONNX Runtime](https://img.shields.io/badge/Optimization-ONNX%20Runtime-0078D4.svg)](https://onnxruntime.ai/)
 
-**Veritas** is a hardware-aware optimization engine designed to democratize misinformation detection. It compresses Large Language Models (LLMs) into lightweight, offline-capable artifacts that run on standard consumer CPUs—specifically designed for users in "connectivity-blind" regions.
-
-## 🚀 The Mission: Democratizing Truth
-In regions with limited network infrastructure, like the reserved forests of Tripura, India, cloud-based fact-checking is often impossible. Veritas bridges this digital divide by shifting inference from power-hungry cloud GPUs to local, low-resource CPUs.
-
-### Key Performance Metrics:
-- **74.8% Reduction in Size:** 255.45 MB → **64.45 MB** (Fits within Chrome Extension limits).
-- **55.2% Faster Inference:** 52.73 ms → **23.58 ms** (Synchronous real-time scrolling).
-- **98.7% Accuracy Retention:** Preserves baseline predictive power while using 8-bit integer precision.
+**Veritas Engine** is a specialized optimization pipeline designed to compress Transformer-based models for real-time, client-side inference. It specifically targets the "Last Mile" of internet connectivity, moving away from cloud-dependent APIs toward high-speed, 8-bit integer (INT8) local models.
 
 ---
 
-## 🛠️ Features
-- **Hardware-Aware Compression:** Targets `AVX512_VNNI` instructions for maximum CPU throughput.
-- **Dynamic Quantization:** Converts FP32 weights to INT8 to reduce memory bandwidth bottlenecks.
-- **ONNX Runtime Optimization:** Operator fusion and graph optimization for seamless browser integration.
-- **Dataset Remapping:** Automated pipeline to adapt the LIAR dataset for binary safety filters.
+## 🌍 The Problem: The "Connectivity-Blind" Gap
+In regions with unstable network infrastructure (such as the reserved forests of Tripura, India), cloud-based AI verification is often unusable. Veritas Engine bridges this digital divide by optimizing state-of-the-art NLP models to run locally on consumer-grade CPUs.
+
+### Key Performance Benchmarks:
+| Metric | Baseline (DistilBERT FP32) | Veritas Optimized (INT8 ONNX) |
+| :--- | :--- | :--- |
+| **Model Size** | 255.45 MB | **64.45 MB** (75% smaller) |
+| **Latency** | 52.73 ms | **23.58 ms** (55% faster) |
+| **Accuracy** | 62.77% | **61.99%** (98.7% retained) |
 
 ---
 
@@ -29,33 +24,63 @@ In regions with limited network infrastructure, like the reserved forests of Tri
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/veritas-optimization-engine.git
-cd veritas-optimization-engine
+git clone https://github.com/YOUR_USERNAME/veritas-engine.git
+cd veritas-engine
 
-# Install dependencies
-pip install transformers optimum[onnxruntime] torch pandas datasets
-🖥️ Usage
-1. Run the Optimization Pipeline
-To fine-tune and compress the DistilBERT model into an ONNX artifact:
-code
-Python
+# Install required libraries
+pip install transformers optimum[onnxruntime] torch pandas datasets matplotlib seaborn
+```
+
+---
+
+## 🖥️ Usage
+
+### 1. Run the Optimization Pipeline
+The main script `veritas_engine.py` handles the training, quantization, and ONNX export.
+
+```python
 from veritas_engine import VeritasEngine
 
-# Initialize and run the squeeze
-engine = VeritasEngine()
+# Initialize the engine
+engine = VeritasEngine(model_name="distilbert-base-uncased")
+
+# Step 1: Prepare the dataset
+dataset = engine.prepare_data()
+
+# Step 2: Execute optimization (Quantization + ONNX Export)
 engine.optimize()
-2. Local Inference Test
-Run a real-time check on a political claim using the optimized engine:
-code
-Python
-# (See cell 8 from the notebook for the full inference script)
-📊 Research Context
-This software is the implementation of the paper: Democratizing Truth: Optimizing Transformer Models for Client-Side Misinformation Detection in Resource-Constrained Environments.
-Veritas was built to solve the Latency and Privacy Bottleneck, ensuring that AI safety tools are a local right, not a cloud-dependent luxury.
-🤝 Contributing
-Contributions are welcome! If you have ideas for improving quantization-aware training (QAT) or extending support to mobile ARM architectures (e.g., for Android deployment), please open an issue or pull request.
-📜 License
-Distributed under the MIT License. See LICENSE for more information.
-✍️ Author
-Shambhavi Singh - Independent Researcher
-shalinibhavi525@gmail.com
+```
+
+### 2. Verify Local Inference
+Once optimized, you can run the engine locally using ONNX Runtime:
+
+```python
+from optimum.onnxruntime import ORTModelForSequenceClassification
+from transformers import AutoTokenizer
+
+# Load the 64MB squeezed model
+model = ORTModelForSequenceClassification.from_pretrained("onnx_quantized", file_name="model_quantized.onnx")
+tokenizer = AutoTokenizer.from_pretrained("./my_fine_tuned_model")
+
+# Test a claim
+inputs = tokenizer("The unemployment rate dropped this month.", return_tensors="pt")
+outputs = model(**inputs)
+print(outputs.logits)
+```
+
+---
+
+## 📊 Methodology
+The Veritas Engine follows a three-stage compression architecture:
+1. **Fine-Tuning:** DistilBERT is trained on remapped binary labels from the LIAR dataset.
+2. **INT8 Quantization:** Linear layers are dynamically quantized to 8-bit precision to save 75% space.
+3. **ONNX Graph Optimization:** The model is converted to a static computation graph for hardware acceleration (AVX512_VNNI).
+
+---
+
+## ✍️ Author
+**Shambhavi Singh** - Independent Researcher  
+[Email](mailto:shalinibhavi525@gmail.com) | [ORCID](https://orcid.org/YOUR_ORCID_HERE)
+
+## 📜 License
+This project is licensed under the MIT License - see the `LICENSE` file for details.
