@@ -80,7 +80,7 @@ The Veritas Engine follows a three-stage compression architecture:
 
 ## ✍️ Author
 **Shambhavi Singh** - Independent Researcher  
-[Email](mailto:shalinibhavi525@gmail.com) | [ORCID](https://orcid.org/YOUR_ORCID_HERE)
+[Email](mailto:shalinibhavi525@gmail.com) | [ORCID](https://orcid.org/0009-0009-9448-5638)
 
 ## 📜 License
 This project is licensed under the MIT License - see the `LICENSE` file for details.
