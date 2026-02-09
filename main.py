@@ -11,7 +11,7 @@ def main():
     dataset = engine.prepare_data()
 
     print("--- Phase 1: Training ---")
-    engine.run_training(dataset, epochs=1) # 1 epoch for demo speed
+    engine.run_training(dataset, epochs=1)
 
     print("--- Phase 2: Squeezing ---")
     engine.squeeze_model()
