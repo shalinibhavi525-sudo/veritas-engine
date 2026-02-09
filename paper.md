@@ -8,7 +8,7 @@ tags:
   - Information Integrity
 authors:
   - name: Shambhavi Singh
-    orcid: 0009-0002-3401-4432
+    orcid: 0009-0009-9448-5638
     affiliation: Independent Researcher
 date: 9 February 2026
 bibliography: paper.bib
