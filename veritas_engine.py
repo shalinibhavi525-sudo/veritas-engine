@@ -30,7 +30,7 @@ class VeritasEngine:
 
     def prepare_data(self, train_path='train.tsv', val_path='valid.tsv'):
         """Remaps LIAR dataset labels to binary classification."""
-        col_names = ['id', 'label_text', 'statement', 'subjects', 'speaker', 'job', 
+        col_names = ['id', 'label_text', 'statement', 'subjects', 'speaker', 'job',  
                      'state', 'party', 'barely_true_cts', 'false_cts', 'half_true_cts', 
                      'mostly_true_cts', 'pants_fire_cts', 'context']
         
